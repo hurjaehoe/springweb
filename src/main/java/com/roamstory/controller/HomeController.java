@@ -1,4 +1,4 @@
-package com.roamstory.web;
+package com.roamstory.controller;
 
 import java.text.DateFormat;
 import java.util.Date;
