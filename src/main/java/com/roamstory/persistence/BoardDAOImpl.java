@@ -18,8 +18,8 @@ public class BoardDAOImpl implements BoardDAO {
 	private static String namespace = "com.roamstroy.mapper.BoardMapper";
 
 	@Override
-	public void create(BoardVO vo) throws Exception {
-		session.insert(namespace+".create", vo);
+	public void create(BoardVO boardVO) throws Exception {
+		session.insert(namespace+".create", boardVO);
 		
 	}
 
@@ -30,8 +30,8 @@ public class BoardDAOImpl implements BoardDAO {
 	}
 
 	@Override
-	public void update(BoardVO vo) throws Exception {
-		session.update(namespace+".update", vo);
+	public void update(BoardVO boardVO) throws Exception {
+		session.update(namespace+".update", boardVO);
 		
 	}
 

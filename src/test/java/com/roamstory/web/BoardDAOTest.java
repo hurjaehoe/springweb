@@ -33,16 +33,15 @@ public class BoardDAOTest {
 	
 	@Test
 	public void testRead() throws Exception {
-		logger.info(dao.read(1).toString());
+		logger.info(dao.read(2).toString());
 	}
 	
 	@Test
 	public void testUpdate() throws Exception {
 		BoardVO board = new BoardVO();
-		board.setBbsno(1);
+		board.setBbsno(2);
 		board.setTitle("스프링이란??");
 	    board.setContent("스프링은 POJO 방식...");
-	    board.setWriter("user01");
 	    dao.update(board);
 	}
 	
@@ -51,4 +50,9 @@ public class BoardDAOTest {
 		dao.delete(1);
 	}
 
+	
+	@Test
+	public void testListAll() throws Exception {
+		logger.info(dao.listAll().toString());
+	}
 }
