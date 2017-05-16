@@ -10,8 +10,8 @@
 	      values (#{title}, #{content} ,#{writer})
 	  </insert>
 	  
-	  <select id="read" resultType="com.roamstory.domain.BoardVO">
-	      select bbsno, content, writer, regdate, viewcnt
+	  <select id="read" resultType="BoardVO">
+	      select bbsno, title, content, writer, regdate, viewcnt
 	        from tbl_board
 	       where bbsno = #{bbsno}
 	  </select>
@@ -25,7 +25,7 @@
 	      delete from tbl_board where bbsno = #{bbsno}
 	  </delete>
 	  
-	  <select id="listAll" resultType="com.roamstory.domain.BoardVO">
+	  <select id="listAll" resultType="BoardVO">
 	     <![CDATA[
 	         select bbsno, title, content, writer, regdate, viewcnt
 	           from tbl_board
