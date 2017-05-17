@@ -49,7 +49,7 @@ public class BoardController {
 	}
 	
 	@RequestMapping(value = "/read", method = RequestMethod.GET)
-	public void listAll(@RequestParam("bbsno") int bbsno, Model model) throws Exception {
+	public void read(@RequestParam("bbsno") int bbsno, Model model) throws Exception {
 		logger.info("read get.....");
 		
 		model.addAttribute(boardService.read(bbsno));
