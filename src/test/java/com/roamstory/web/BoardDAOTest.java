@@ -1,5 +1,7 @@
 package com.roamstory.web;
 
+import java.util.List;
+
 import javax.inject.Inject;
 
 import org.junit.Test;
@@ -10,6 +12,7 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import com.roamstory.domain.BoardVO;
+import com.roamstory.domain.PageCriteriaVO;
 import com.roamstory.persistence.BoardDAO;
 
 @RunWith(SpringJUnit4ClassRunner.class)
@@ -54,5 +57,21 @@ public class BoardDAOTest {
 	@Test
 	public void testListAll() throws Exception {
 		logger.info(dao.listAll().toString());
+	}
+	
+	
+	@Test
+	public void testListCriteria() throws Exception {
+		
+		PageCriteriaVO pageCriteriaVO = new PageCriteriaVO();
+		
+		pageCriteriaVO.setPage(2);
+		pageCriteriaVO.setPerPageNum(20);
+		
+		List<BoardVO> list = dao.listCriteria(pageCriteriaVO);
+		
+		for (BoardVO boardVO : list) {
+			logger.info(boardVO.getBbsno() + " : " + boardVO.getTitle());
+		}
 	}
 }

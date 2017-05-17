@@ -7,6 +7,7 @@ import javax.inject.Inject;
 import org.springframework.stereotype.Service;
 
 import com.roamstory.domain.BoardVO;
+import com.roamstory.domain.PageCriteriaVO;
 import com.roamstory.persistence.BoardDAO;
 
 @Service
@@ -39,6 +40,11 @@ public class BoardServiceImpl implements BoardService {
 	@Override
 	public List<BoardVO> listAll() throws Exception {
 		return boardDAO.listAll();
+	}
+
+	@Override
+	public List<BoardVO> listCriteria(PageCriteriaVO pageCriteriaVO) throws Exception {
+		return boardDAO.listCriteria(pageCriteriaVO);
 	}
 
 }

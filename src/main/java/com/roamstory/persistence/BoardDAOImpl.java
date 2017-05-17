@@ -8,6 +8,7 @@ import org.apache.ibatis.session.SqlSession;
 import org.springframework.stereotype.Repository;
 
 import com.roamstory.domain.BoardVO;
+import com.roamstory.domain.PageCriteriaVO;
 
 @Repository
 public class BoardDAOImpl implements BoardDAO {
@@ -45,6 +46,11 @@ public class BoardDAOImpl implements BoardDAO {
 	public List<BoardVO> listAll() throws Exception {
 		
 		return session.selectList(namespace+".listAll");
+	}
+
+	@Override
+	public List<BoardVO> listCriteria(PageCriteriaVO pageCriteriaVO) throws Exception {
+		return session.selectList(namespace+".listCriteria", pageCriteriaVO);
 	}
 
 }

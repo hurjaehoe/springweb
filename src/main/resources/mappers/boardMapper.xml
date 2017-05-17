@@ -34,5 +34,25 @@
 	     ]]>
 	  </select>
 	  
+	  <select id="listPage" resultType="BoardVO">
+		  <![CDATA[
+		      select bbsno, title, content, writer, regdate, viewcnt
+		        from tbl_board
+		       where bbsno > 0
+		       order by bbsno desc, regdate desc
+		       limit #{page}, 10
+		  ]]>
+	  </select>
+	  
+	  <select id="listCriteria" resultType="BoardVO">
+		  <![CDATA[
+		      select bbsno, title, content, writer, regdate, viewcnt
+		        from tbl_board
+		       where bbsno > 0
+		       order by bbsno desc, regdate desc
+		       limit #{pageStart}, #{perPageNum}
+		  ]]>
+	  </select>
+	  
 	  
   </mapper>
