@@ -56,7 +56,7 @@ public class BoardController {
 		
 		rttr.addFlashAttribute("msg", "success");
 		
-		return "redirect:/board/listAll";
+		return "redirect:/board/listPage";
 	}
 	
 	/**
@@ -85,8 +85,9 @@ public class BoardController {
 	 * @throws Exception
 	 */
 	@RequestMapping(value = "/readPage", method = RequestMethod.GET)
-	public void read(@RequestParam("bbsno") int bbsno,
-			         @ModelAttribute("pageCriteriaVO") PageCriteriaVO pageCriteriaVO, Model model) throws Exception {
+	public void read(@RequestParam("bbsno") int bbsno
+			         , @ModelAttribute("pageCriteriaVO") PageCriteriaVO pageCriteriaVO
+			         , Model model) throws Exception {
 		logger.info("read get.....");
 		
 		model.addAttribute(boardService.read(bbsno));
@@ -99,11 +100,14 @@ public class BoardController {
 	 * @param Model
 	 * @throws Exception
 	 */
-	@RequestMapping(value = "/modify", method = RequestMethod.GET)
-	public void modifyGet(BoardVO boardVO, Model model) throws Exception {
+	@RequestMapping(value = "/modifyPage", method = RequestMethod.GET)
+	public void modifyGet(@RequestParam("bbsno") int bbsno
+			, @ModelAttribute("pageCriteriaVO") PageCriteriaVO pageCriteriaVO
+			, Model model) throws Exception {
+		
 		logger.info("modify get.....");
 		
-		model.addAttribute(boardService.read(boardVO.getBbsno()));
+		model.addAttribute(boardService.read(bbsno));
 	}
 	
 	/**
@@ -113,14 +117,20 @@ public class BoardController {
 	 * @return /board/listAll
 	 * @throws Exception
 	 */
-	@RequestMapping(value = "/modify", method = RequestMethod.POST)
-	public String modifyPost(BoardVO boardVO, RedirectAttributes rttr) throws Exception {
+	@RequestMapping(value = "/modifyPage", method = RequestMethod.POST)
+	public String modifyPost(BoardVO boardVO
+			, PageCriteriaVO pageCriteriaVO
+			, RedirectAttributes rttr) throws Exception {
+		
 		logger.info("modify post.....");
+		
 		boardService.modify(boardVO);
 		
+		rttr.addAttribute("page",pageCriteriaVO.getPage());
+		rttr.addAttribute("perPageNum",pageCriteriaVO.getPerPageNum());
 		rttr.addFlashAttribute("msg","success");
 		
-		return "redirect:/board/listAll";
+		return "redirect:/board/listPage";
 	}
 	
 	/**
@@ -130,14 +140,19 @@ public class BoardController {
 	 * @return /board/listAll
 	 * @throws Exception
 	 */
-	@RequestMapping(value = "/remove", method = RequestMethod.POST)
-	public String remove(@RequestParam("bbsno") int bbsno, RedirectAttributes rttr) throws Exception {
+	@RequestMapping(value = "/removePage", method = RequestMethod.POST)
+	public String remove(@RequestParam("bbsno") int bbsno,
+			PageCriteriaVO pageCriteriaVO , RedirectAttributes rttr) throws Exception {
+		
 		logger.info("read get.....");
+		
 		boardService.remove(bbsno);
 		
+		rttr.addAttribute("page",pageCriteriaVO.getPage());
+		rttr.addAttribute("perPageNum",pageCriteriaVO.getPerPageNum());
 		rttr.addFlashAttribute("msg","success");
 		
-		return "redirect:/board/listAll";
+		return "redirect:/board/listPage";
 	}
 
 }

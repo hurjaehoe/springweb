@@ -17,6 +17,9 @@
 
 				<form role="form" method="post">
 
+					<input type='hidden' name='page' value="${pageCriteriaVO.page}">
+					<input type='hidden' name='perPageNum' value="${pageCriteriaVO.perPageNum}">
+					
 					<div class="box-body">
 
 						<div class="form-group">
@@ -55,7 +58,7 @@
 						console.log(formObj);
 
 						$(".btn-warning").on("click", function() {
-							self.location = "/board/listAll";
+							self.location = "/board/listPage?page=${pageCriteriaVO.page}&perPageNum=${pageCriteriaVO.perPageNum}";
 						});
 
 						$(".btn-primary").on("click", function() {

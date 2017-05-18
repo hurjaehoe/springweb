@@ -54,13 +54,13 @@
 						console.log(formObj);
 
 						$(".btn-warning").on("click", function() {
-							formObj.attr("action", "/board/modify");
+							formObj.attr("action", "/board/modifyPage");
 							formObj.attr("method","get");
 							formObj.submit();
 						});
 
 						$(".btn-danger").on("click", function() {
-							formObj.attr("action", "/board/remove");
+							formObj.attr("action", "/board/removePage");
 							formObj.submit();
 						});
 
