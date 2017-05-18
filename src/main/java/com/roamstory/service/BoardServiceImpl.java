@@ -47,4 +47,9 @@ public class BoardServiceImpl implements BoardService {
 		return boardDAO.listCriteria(pageCriteriaVO);
 	}
 
+	@Override
+	public int listCountPageCriteria(PageCriteriaVO pageCriteriaVO) throws Exception {
+		return boardDAO.countPaging(pageCriteriaVO);
+	}
+
 }

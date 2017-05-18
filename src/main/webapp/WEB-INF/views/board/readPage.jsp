@@ -18,6 +18,8 @@
 				<form role="form" method="post">
 
 					<input type='hidden' name='bbsno' value="${boardVO.bbsno}">
+					<input type='hidden' name='page' value="${pageCriteriaVO.page}">
+					<input type='hidden' name='perPageNum' value="${pageCriteriaVO.perPageNum}">
 
 				</form>
 
@@ -62,8 +64,10 @@
 							formObj.submit();
 						});
 
-						$(".btn-primary").on("click", function() {
-							self.location = "/board/listAll";
+						$(".btn-primary").on("click", function(){
+							formObj.attr("method", "get");
+							formObj.attr("action", "/board/listPage");
+							formObj.submit();
 						});
 
 					});
@@ -83,5 +87,4 @@
 <!-- /.content -->
 </div>
 <!-- /.content-wrapper -->
-
 <%@include file="../include/footer.jsp"%>

@@ -6,12 +6,15 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.roamstory.domain.BoardVO;
+import com.roamstory.domain.PageCriteriaVO;
+import com.roamstory.domain.PageMakerVO;
 import com.roamstory.service.BoardService;
 
 @Controller
@@ -20,14 +23,29 @@ public class BoardController {
 	
 	private static final Logger logger = LoggerFactory.getLogger(BoardController.class);
 
+	/**
+	 * BoardService를 주입한다.
+	 */
 	@Inject
 	private BoardService boardService;
 
+    /**
+	 * 게시글을 등록할 수 있는 페이지로 이동한다.
+	 * @param BoardVO 
+	 * @param Model
+	 */
 	@RequestMapping(value = "/register", method = RequestMethod.GET)
 	public void registerGet(BoardVO boardVO, Model model) throws Exception {
 		logger.info("register get.....");
 	}
 	
+	/**
+	 * 게시글을 등록한다.
+	 * @param BoardVO 
+	 * @param RedirectAttributes
+	 * @return /board/listAll 리다이렉트로 페이지 이동
+	 * @throws Exception
+	 */
 	@RequestMapping(value = "/register", method = RequestMethod.POST)
 	public String registPost(BoardVO boardVO, RedirectAttributes rttr) throws Exception {
 		
@@ -41,20 +59,46 @@ public class BoardController {
 		return "redirect:/board/listAll";
 	}
 	
-	@RequestMapping(value = "/listAll", method = RequestMethod.GET)
-	public void listAll(Model model) throws Exception {
+	/**
+	 * 페이징된 게시글 목록을 보여준다.
+	 * @param PageCriteriaVO  페이지 정보.
+	 * @param Model
+	 * @throws Exception
+	 */
+	@RequestMapping(value = "/listPage", method = RequestMethod.GET)
+	public void listAll(PageCriteriaVO pageCriteriaVO, Model model) throws Exception {
 		logger.info("listAll get.....");
+		logger.info(pageCriteriaVO.toString());
 		
-		model.addAttribute("boardList", boardService.listAll());
+		model.addAttribute("boardList", boardService.listCriteria(pageCriteriaVO));
+		PageMakerVO pageMakerVO = new PageMakerVO();
+		pageMakerVO.setPageCriteriaVO(pageCriteriaVO);
+		pageMakerVO.setTotalCount(boardService.listCountPageCriteria(pageCriteriaVO));
+		
+		model.addAttribute("pageMaker",pageMakerVO);
 	}
 	
-	@RequestMapping(value = "/read", method = RequestMethod.GET)
-	public void read(@RequestParam("bbsno") int bbsno, Model model) throws Exception {
+	/**
+	 * 해당 게시글 번호로 이동한다.
+	 * @param bbsno 게시글 번호
+	 * @param Model
+	 * @throws Exception
+	 */
+	@RequestMapping(value = "/readPage", method = RequestMethod.GET)
+	public void read(@RequestParam("bbsno") int bbsno,
+			         @ModelAttribute("pageCriteriaVO") PageCriteriaVO pageCriteriaVO, Model model) throws Exception {
 		logger.info("read get.....");
 		
 		model.addAttribute(boardService.read(bbsno));
 	}
 	
+	
+	/**
+	 * 해당 게시글 번호를 수정하는 페이지로 이동한다.
+	 * @param BoardVO
+	 * @param Model
+	 * @throws Exception
+	 */
 	@RequestMapping(value = "/modify", method = RequestMethod.GET)
 	public void modifyGet(BoardVO boardVO, Model model) throws Exception {
 		logger.info("modify get.....");
@@ -62,7 +106,13 @@ public class BoardController {
 		model.addAttribute(boardService.read(boardVO.getBbsno()));
 	}
 	
-	
+	/**
+	 * 해당 게시글 번호를 수정한다.
+	 * @param BoardVO
+	 * @param RedirectAttributes
+	 * @return /board/listAll
+	 * @throws Exception
+	 */
 	@RequestMapping(value = "/modify", method = RequestMethod.POST)
 	public String modifyPost(BoardVO boardVO, RedirectAttributes rttr) throws Exception {
 		logger.info("modify post.....");
@@ -73,6 +123,13 @@ public class BoardController {
 		return "redirect:/board/listAll";
 	}
 	
+	/**
+	 * 해당 게시글 번호를 삭제한다.
+	 * @param bbsno
+	 * @param RedirectAttributes
+	 * @return /board/listAll
+	 * @throws Exception
+	 */
 	@RequestMapping(value = "/remove", method = RequestMethod.POST)
 	public String remove(@RequestParam("bbsno") int bbsno, RedirectAttributes rttr) throws Exception {
 		logger.info("read get.....");
