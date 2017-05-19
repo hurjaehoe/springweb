@@ -19,6 +19,8 @@
 
 					<input type='hidden' name='page' value="${criteriaVO.page}">
 					<input type='hidden' name='perPageNum' value="${criteriaVO.perPageNum}">
+					<input type='hidden' name='searchType' value="${criteriaVO.searchType}">
+					<input type='hidden' name='keyword' value="${criteriaVO.keyword}">
 					
 					<div class="box-body">
 
@@ -58,7 +60,8 @@
 						console.log(formObj);
 
 						$(".btn-warning").on("click", function() {
-							self.location = "/board/listPage?page=${criteriaVO.page}&perPageNum=${criteriaVO.perPageNum}";
+							self.location = "/sboard/list?page=${criteriaVO.page}&perPageNum=${criteriaVO.perPageNum}"
+									+ "&searchTyp=${criteriaVO.searchType}&keyword=${criteriaVO.keyword}";
 						});
 
 						$(".btn-primary").on("click", function() {

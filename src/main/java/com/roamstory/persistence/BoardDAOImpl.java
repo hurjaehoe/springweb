@@ -55,23 +55,23 @@ public class BoardDAOImpl implements BoardDAO {
 	}
 
 	@Override
-	public List<BoardVO> listCriteria(PageCriteriaVO pageCriteriaVO) throws Exception {
-		return session.selectList(namespace+".listCriteria", pageCriteriaVO);
+	public List<BoardVO> listCriteria(PageCriteriaVO criteriaVO) throws Exception {
+		return session.selectList(namespace+".listCriteria", criteriaVO);
 	}
 
 	@Override
-	public int countPaging(PageCriteriaVO pageCriteriaVO) throws Exception {
-		return session.selectOne(namespace+".countPaging", pageCriteriaVO);
+	public int countPaging(PageCriteriaVO criteriaVO) throws Exception {
+		return session.selectOne(namespace+".countPaging", criteriaVO);
 	}
 
 	@Override
-	public List<BoardVO> listSearch(SearchCriteriaVO searchCriteriaVO) throws Exception {
-		return session.selectList(namespace+".listSearch", searchCriteriaVO);
+	public List<BoardVO> listSearch(SearchCriteriaVO criteriaVO) throws Exception {
+		return session.selectList(namespace+".listSearch", criteriaVO);
 	}
 
 	@Override
-	public int listSearchCount(SearchCriteriaVO searchCriteriaVO) throws Exception {
-		return session.selectOne(namespace+".listSearchCount", searchCriteriaVO);
+	public int listSearchCount(SearchCriteriaVO criteriaVO) throws Exception {
+		return session.selectOne(namespace+".listSearchCount", criteriaVO);
 	}
 
 }

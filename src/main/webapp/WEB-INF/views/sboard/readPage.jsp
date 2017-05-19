@@ -20,6 +20,8 @@
 					<input type='hidden' name='bbsno' value="${boardVO.bbsno}">
 					<input type='hidden' name='page' value="${criteriaVO.page}">
 					<input type='hidden' name='perPageNum' value="${criteriaVO.perPageNum}">
+					<input type='hidden' name='searchType' value="${criteriaVO.searchType}">
+					<input type='hidden' name='keyword' value="${criteriaVO.keyword}">
 
 				</form>
 
@@ -54,19 +56,19 @@
 						console.log(formObj);
 
 						$(".btn-warning").on("click", function() {
-							formObj.attr("action", "/board/modifyPage");
+							formObj.attr("action", "/sboard/modifyPage");
 							formObj.attr("method","get");
 							formObj.submit();
 						});
 
 						$(".btn-danger").on("click", function() {
-							formObj.attr("action", "/board/removePage");
+							formObj.attr("action", "/sboard/removePage");
 							formObj.submit();
 						});
 
 						$(".btn-primary").on("click", function(){
 							formObj.attr("method", "get");
-							formObj.attr("action", "/board/listPage");
+							formObj.attr("action", "/sboard/list");
 							formObj.submit();
 						});
 

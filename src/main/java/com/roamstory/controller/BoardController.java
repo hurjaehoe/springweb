@@ -66,14 +66,14 @@ public class BoardController {
 	 * @throws Exception
 	 */
 	@RequestMapping(value = "/listPage", method = RequestMethod.GET)
-	public void listAll(PageCriteriaVO pageCriteriaVO, Model model) throws Exception {
+	public void listAll(PageCriteriaVO criteriaVO, Model model) throws Exception {
 		logger.info("listAll get.....");
-		logger.info(pageCriteriaVO.toString());
+		logger.info(criteriaVO.toString());
 		
-		model.addAttribute("boardList", boardService.listCriteria(pageCriteriaVO));
+		model.addAttribute("boardList", boardService.listCriteria(criteriaVO));
 		PageMakerVO pageMakerVO = new PageMakerVO();
-		pageMakerVO.setPageCriteriaVO(pageCriteriaVO);
-		pageMakerVO.setTotalCount(boardService.listCountPageCriteria(pageCriteriaVO));
+		pageMakerVO.setPageCriteriaVO(criteriaVO);
+		pageMakerVO.setTotalCount(boardService.listCountPageCriteria(criteriaVO));
 		
 		model.addAttribute("pageMaker",pageMakerVO);
 	}
@@ -86,7 +86,7 @@ public class BoardController {
 	 */
 	@RequestMapping(value = "/readPage", method = RequestMethod.GET)
 	public void read(@RequestParam("bbsno") int bbsno
-			         , @ModelAttribute("pageCriteriaVO") PageCriteriaVO pageCriteriaVO
+			         , @ModelAttribute("criteriaVO") PageCriteriaVO criteriaVO
 			         , Model model) throws Exception {
 		logger.info("read get.....");
 		
@@ -102,7 +102,7 @@ public class BoardController {
 	 */
 	@RequestMapping(value = "/modifyPage", method = RequestMethod.GET)
 	public void modifyGet(@RequestParam("bbsno") int bbsno
-			, @ModelAttribute("pageCriteriaVO") PageCriteriaVO pageCriteriaVO
+			, @ModelAttribute("pageCriteriaVO") PageCriteriaVO criteriaVO
 			, Model model) throws Exception {
 		
 		logger.info("modify get.....");
@@ -119,15 +119,15 @@ public class BoardController {
 	 */
 	@RequestMapping(value = "/modifyPage", method = RequestMethod.POST)
 	public String modifyPost(BoardVO boardVO
-			, PageCriteriaVO pageCriteriaVO
+			, PageCriteriaVO criteriaVO
 			, RedirectAttributes rttr) throws Exception {
 		
 		logger.info("modify post.....");
 		
 		boardService.modify(boardVO);
 		
-		rttr.addAttribute("page",pageCriteriaVO.getPage());
-		rttr.addAttribute("perPageNum",pageCriteriaVO.getPerPageNum());
+		rttr.addAttribute("page", criteriaVO.getPage());
+		rttr.addAttribute("perPageNum", criteriaVO.getPerPageNum());
 		rttr.addFlashAttribute("msg","success");
 		
 		return "redirect:/board/listPage";
@@ -142,14 +142,14 @@ public class BoardController {
 	 */
 	@RequestMapping(value = "/removePage", method = RequestMethod.POST)
 	public String remove(@RequestParam("bbsno") int bbsno,
-			PageCriteriaVO pageCriteriaVO , RedirectAttributes rttr) throws Exception {
+			PageCriteriaVO criteriaVO , RedirectAttributes rttr) throws Exception {
 		
 		logger.info("read get.....");
 		
 		boardService.remove(bbsno);
 		
-		rttr.addAttribute("page",pageCriteriaVO.getPage());
-		rttr.addAttribute("perPageNum",pageCriteriaVO.getPerPageNum());
+		rttr.addAttribute("page",criteriaVO.getPage());
+		rttr.addAttribute("perPageNum",criteriaVO.getPerPageNum());
 		rttr.addFlashAttribute("msg","success");
 		
 		return "redirect:/board/listPage";

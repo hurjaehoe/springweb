@@ -321,7 +321,21 @@
 									class="fa fa-circle-o"></i> Dashboard v1</a></li>
 							<li><a href="/resources/index2.html"><i
 									class="fa fa-circle-o"></i> Dashboard v2</a></li>
-						</ul></li>
+						</ul>
+					</li>
+					<li class="treeview">
+					<a href="#"> 
+						<i class="fa fa-dashboard"></i> 
+							<span>Board</span>
+						<i class="fa fa-angle-left pull-right"></i>
+					</a>
+						<ul class="treeview-menu">
+							<li><a href="/board/listPage"><i
+									class="fa fa-circle-o"></i> Board v1</a></li>
+							<li><a href="/sboard/list"><i
+									class="fa fa-circle-o"></i> Board v2</a></li>
+						</ul>
+					</li>
 					<li class="treeview"><a href="#"> <i class="fa fa-files-o"></i>
 							<span>Layout Options</span> <span
 							class="label label-primary pull-right">4</span>

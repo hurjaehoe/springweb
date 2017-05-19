@@ -14,20 +14,19 @@ public class PageMakerVO {
 	private boolean prev;
 	private boolean next;
 	private int displayPageNum = 10;
-	private PageCriteriaVO pageCriteriaVO;
-	private SearchCriteriaVO searchCriteriaVO;
+	private PageCriteriaVO criteriaVO;
 	
 	public void setPageCriteriaVO(PageCriteriaVO pageCriteriaVO) {
-		this.pageCriteriaVO = pageCriteriaVO;
+		this.criteriaVO = pageCriteriaVO;
 	}
 
 	private void calculateData() {
 		
-		endPage = (int)(Math.ceil(pageCriteriaVO.getPage() / (double) displayPageNum) * displayPageNum);
+		endPage = (int)(Math.ceil(criteriaVO.getPage() / (double) displayPageNum) * displayPageNum);
 		
 		startPage = (endPage - displayPageNum) + 1;
 		
-		int tempEndPage = (int)(Math.ceil(totalCount / (double) pageCriteriaVO.getPerPageNum()));
+		int tempEndPage = (int)(Math.ceil(totalCount / (double) criteriaVO.getPerPageNum()));
 		
 		if (endPage > tempEndPage) {
 			endPage = tempEndPage;
@@ -35,14 +34,14 @@ public class PageMakerVO {
 		
 		prev = startPage == 1 ? false : true;
 		
-		next = endPage * pageCriteriaVO.getPerPageNum() >= totalCount ? false : true;
+		next = endPage * criteriaVO.getPerPageNum() >= totalCount ? false : true;
 	}
 	
 	public String makeQuery(int page) {
 		UriComponents uriComponents = 
 				UriComponentsBuilder.newInstance()
 				.queryParam("page", page)
-				.queryParam("perPageNum", pageCriteriaVO.getPerPageNum())
+				.queryParam("perPageNum", criteriaVO.getPerPageNum())
 				.build();
 		
 		return uriComponents.toUriString();
@@ -52,9 +51,9 @@ public class PageMakerVO {
 		UriComponents uriComponents = 
 				UriComponentsBuilder.newInstance()
 				.queryParam("page", page)
-				.queryParam("perPageNum", pageCriteriaVO.getPerPageNum())
-				.queryParam("searchType", ((SearchCriteriaVO) pageCriteriaVO).getSearchType())
-				.queryParam("keyword", encoding(((SearchCriteriaVO) pageCriteriaVO).getKeyword()))
+				.queryParam("perPageNum", criteriaVO.getPerPageNum())
+				.queryParam("searchType", ((SearchCriteriaVO) criteriaVO).getSearchType())
+				.queryParam("keyword", encoding(((SearchCriteriaVO) criteriaVO).getKeyword()))
 				.build();
 		
 		return uriComponents.toUriString();
@@ -122,14 +121,14 @@ public class PageMakerVO {
 		return totalCount;
 	}
 
-	public PageCriteriaVO getPageCriteriaVO() {
-		return pageCriteriaVO;
+	public PageCriteriaVO getCriteriaVO() {
+		return criteriaVO;
 	}
 
 	@Override
 	public String toString() {
 		return "PageMakerVO [totalCount=" + totalCount + ", startPage=" + startPage + ", endPage=" + endPage + ", prev="
-				+ prev + ", next=" + next + ", displayPageNum=" + displayPageNum + ", pageCriteriaVO=" + pageCriteriaVO
+				+ prev + ", next=" + next + ", displayPageNum=" + displayPageNum + ", criteriaVO=" + criteriaVO
 				+ "]";
 	}
 	
