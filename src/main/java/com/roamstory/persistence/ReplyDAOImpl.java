@@ -1,12 +1,15 @@
 package com.roamstory.persistence;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.inject.Inject;
 
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.stereotype.Repository;
 
+import com.roamstory.domain.PageCriteriaVO;
 import com.roamstory.domain.ReplyVO;
 
 @Repository
@@ -40,6 +43,21 @@ public class ReplyDAOImpl implements ReplyDAO{
 	public void delete(Integer replyno) throws Exception {
 		session.delete(namespace + ".delete", replyno);
 		
+	}
+
+	@Override
+	public List<ReplyVO> listPage(Integer bbsno, PageCriteriaVO criteriaVO) throws Exception {
+		Map<String, Object> paramMap = new HashMap<>();
+		
+		paramMap.put("bbsno", bbsno);
+		paramMap.put("criteriaVO", criteriaVO);
+		
+		return session.selectList(namespace + ".listPage", paramMap);
+	}
+
+	@Override
+	public int count(Integer bbsno) throws Exception {
+		return session.selectOne(namespace + ".count", bbsno);
 	}
 
 }

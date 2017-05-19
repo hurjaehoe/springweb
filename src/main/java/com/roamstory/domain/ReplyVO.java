@@ -11,6 +11,7 @@ public class ReplyVO {
 	
 	private Date regdate;
 	private Date updatedate;
+	
 	public Integer getReplyno() {
 		return replyno;
 	}

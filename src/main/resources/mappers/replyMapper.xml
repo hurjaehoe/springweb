@@ -3,12 +3,13 @@
   PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
-<mapper namespace="com.roamstroy.mapper.ReplyMapper">
+<mapper namespace="com.roamstory.mapper.ReplyMapper">
 
 	<select id="list" resultType="ReplyVO">
 		select *
 		from tbl_reply
-		where bbsno = #{bbsno}
+		where bbsno =
+		#{bbsno}
 		order by replyno desc
 	</select>
 
@@ -19,7 +20,8 @@
 	</insert>
 
 	<update id="update">
-		update tbl_reply set replytext = #{replytext}, updatedate = now()
+		update tbl_reply set replytext = #{replytext},
+		updatedate = now()
 		where replyno = #{replyno}
 	</update>
 
@@ -27,4 +29,15 @@
 		delete from tbl_reply where replyno = #{replyno}
 	</delete>
 
+	<select id="listPage" resultType="ReplyVO">
+		select * from tbl_reply
+		where bbsno = #{bbsno}
+		order by replyno desc
+		limit #{criteriaVO.pageStart}, #{criteriaVO.perPageNum}
+	</select>
+
+	<select id="count" resultType="int">
+		select count(*) from tbl_reply
+		where bbsno = #{bbsno}
+	</select>
 </mapper>

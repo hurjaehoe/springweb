@@ -2,6 +2,7 @@ package com.roamstory.persistence;
 
 import java.util.List;
 
+import com.roamstory.domain.PageCriteriaVO;
 import com.roamstory.domain.ReplyVO;
 
 public interface ReplyDAO {
@@ -13,5 +14,9 @@ public interface ReplyDAO {
 	public void update(ReplyVO replyVO) throws Exception;
 	
 	public void delete(Integer replyno) throws Exception;
+	
+	public List<ReplyVO> listPage(Integer bbsno, PageCriteriaVO criteriaVO) throws Exception;
+	
+	public int count(Integer bbsno) throws Exception;
 
 }
