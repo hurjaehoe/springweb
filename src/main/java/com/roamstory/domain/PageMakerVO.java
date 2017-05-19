@@ -1,29 +1,26 @@
 package com.roamstory.domain;
 
+import java.io.UnsupportedEncodingException;
+import java.net.URLEncoder;
+
 import org.springframework.web.util.UriComponents;
 import org.springframework.web.util.UriComponentsBuilder;
 
 public class PageMakerVO {
+	
 	private int totalCount;
 	private int startPage;
 	private int endPage;
 	private boolean prev;
 	private boolean next;
-	
 	private int displayPageNum = 10;
-	
 	private PageCriteriaVO pageCriteriaVO;
+	private SearchCriteriaVO searchCriteriaVO;
 	
 	public void setPageCriteriaVO(PageCriteriaVO pageCriteriaVO) {
 		this.pageCriteriaVO = pageCriteriaVO;
 	}
 
-	public void setTotalCount(int totalCount) {
-		this.totalCount = totalCount;
-		
-		calculateData();
-	}
-	
 	private void calculateData() {
 		
 		endPage = (int)(Math.ceil(pageCriteriaVO.getPage() / (double) displayPageNum) * displayPageNum);
@@ -49,6 +46,36 @@ public class PageMakerVO {
 				.build();
 		
 		return uriComponents.toUriString();
+	}
+	
+	public String makeSearch(int page) {
+		UriComponents uriComponents = 
+				UriComponentsBuilder.newInstance()
+				.queryParam("page", page)
+				.queryParam("perPageNum", pageCriteriaVO.getPerPageNum())
+				.queryParam("searchType", ((SearchCriteriaVO) pageCriteriaVO).getSearchType())
+				.queryParam("keyword", encoding(((SearchCriteriaVO) pageCriteriaVO).getKeyword()))
+				.build();
+		
+		return uriComponents.toUriString();
+	}
+	
+	
+	public String encoding(String keyword) {
+		if (keyword == null || keyword.trim().length() == 0) {
+			return "";
+		}
+		
+		try {
+		   return URLEncoder.encode(keyword,"UTF-8");
+		} catch (UnsupportedEncodingException e) {
+			return "";
+		}
+	}
+	public void setTotalCount(int totalCount) {
+		this.totalCount = totalCount;
+		
+		calculateData();
 	}
 
 	public int getStartPage() {

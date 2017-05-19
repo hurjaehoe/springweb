@@ -4,6 +4,7 @@ import java.util.List;
 
 import com.roamstory.domain.BoardVO;
 import com.roamstory.domain.PageCriteriaVO;
+import com.roamstory.domain.SearchCriteriaVO;
 
 public interface BoardDAO {
 	
@@ -20,5 +21,9 @@ public interface BoardDAO {
 	public List<BoardVO> listCriteria(PageCriteriaVO pageCriteriaVO) throws Exception;
 	
 	public int countPaging(PageCriteriaVO pageCriteriaVO) throws Exception;
+	
+	public List<BoardVO> listSearch(SearchCriteriaVO searchCriteriaVO) throws Exception;
+	
+	public int listSearchCount(SearchCriteriaVO searchCriteriaVO) throws Exception;
 	
 }

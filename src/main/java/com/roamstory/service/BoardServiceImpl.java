@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 
 import com.roamstory.domain.BoardVO;
 import com.roamstory.domain.PageCriteriaVO;
+import com.roamstory.domain.SearchCriteriaVO;
 import com.roamstory.persistence.BoardDAO;
 
 @Service
@@ -50,6 +51,17 @@ public class BoardServiceImpl implements BoardService {
 	@Override
 	public int listCountPageCriteria(PageCriteriaVO pageCriteriaVO) throws Exception {
 		return boardDAO.countPaging(pageCriteriaVO);
+	}
+
+	@Override
+	public int listSearchCount(SearchCriteriaVO searchCriteriaVO) throws Exception {
+		return boardDAO.listSearchCount(searchCriteriaVO);
+	}
+
+	@Override
+	public List<BoardVO> listSearch(SearchCriteriaVO searchCriteriaVO) throws Exception {
+		
+		return boardDAO.listSearch(searchCriteriaVO);
 	}
 
 }

@@ -15,6 +15,7 @@ import org.springframework.web.util.UriComponentsBuilder;
 
 import com.roamstory.domain.BoardVO;
 import com.roamstory.domain.PageCriteriaVO;
+import com.roamstory.domain.SearchCriteriaVO;
 import com.roamstory.persistence.BoardDAO;
 
 @RunWith(SpringJUnit4ClassRunner.class)
@@ -92,5 +93,25 @@ public class BoardDAOTest {
 		logger.info("/board/read?bbsno=12&perPageNum=20");
 		logger.info(uriComponents.toString());
 		
+	}
+	
+	@Test
+	public void testDynamic1() throws Exception {
+		SearchCriteriaVO cri = new SearchCriteriaVO();
+		cri.setPage(4);
+		cri.setKeyword("");
+		cri.setSearchType("");
+		
+		logger.info("==================================");
+		
+		List<BoardVO> list = dao.listSearch(cri);
+		
+		for (BoardVO boardVO : list) {
+			logger.info(boardVO.getBbsno() + ":" + boardVO.getTitle());
+		}
+		
+		logger.info("==================================");
+		
+		logger.info("Count: " + dao.listSearchCount(cri));
 	}
 }

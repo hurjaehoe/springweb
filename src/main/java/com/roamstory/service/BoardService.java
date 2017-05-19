@@ -3,7 +3,7 @@ package com.roamstory.service;
 import java.util.List;
 
 import com.roamstory.domain.BoardVO;
-import com.roamstory.domain.PageCriteriaVO;
+import com.roamstory.domain.PageCriteriaVO;import com.roamstory.domain.SearchCriteriaVO;
 
 public interface BoardService {
 	public void regist(BoardVO boardVO) throws Exception;
@@ -19,5 +19,9 @@ public interface BoardService {
 	public List<BoardVO> listCriteria(PageCriteriaVO pageCriteriaVO) throws Exception;
 	
 	public int listCountPageCriteria(PageCriteriaVO pageCriteriaVO) throws Exception;
+	
+	public List<BoardVO> listSearch(SearchCriteriaVO searchCriteriaVO) throws Exception;
+	
+	public int listSearchCount(SearchCriteriaVO searchCriteriaVO) throws Exception;
 
 }

@@ -5,13 +5,19 @@ import java.util.List;
 import javax.inject.Inject;
 
 import org.apache.ibatis.session.SqlSession;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Repository;
 
 import com.roamstory.domain.BoardVO;
 import com.roamstory.domain.PageCriteriaVO;
+import com.roamstory.domain.SearchCriteriaVO;
+import com.roamstory.web.BoardDAOTest;
 
 @Repository
 public class BoardDAOImpl implements BoardDAO {
+	
+	private static final Logger logger = LoggerFactory.getLogger(BoardDAOImpl.class);
 	
 	@Inject
 	private SqlSession session;
@@ -56,6 +62,16 @@ public class BoardDAOImpl implements BoardDAO {
 	@Override
 	public int countPaging(PageCriteriaVO pageCriteriaVO) throws Exception {
 		return session.selectOne(namespace+".countPaging", pageCriteriaVO);
+	}
+
+	@Override
+	public List<BoardVO> listSearch(SearchCriteriaVO searchCriteriaVO) throws Exception {
+		return session.selectList(namespace+".listSearch", searchCriteriaVO);
+	}
+
+	@Override
+	public int listSearchCount(SearchCriteriaVO searchCriteriaVO) throws Exception {
+		return session.selectOne(namespace+".listSearchCount", searchCriteriaVO);
 	}
 
 }
