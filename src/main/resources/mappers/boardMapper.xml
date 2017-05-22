@@ -64,6 +64,9 @@
 	
 	<sql id="search">
 		<if test="searchType != null">
+			<if test="searchType == 'b'.toString()">
+				and bbsno like CONCAT('%', #{keyword}, '%')
+			</if>
 			<if test="searchType == 't'.toString()">
 				and title like CONCAT('%', #{keyword}, '%')
 			</if>

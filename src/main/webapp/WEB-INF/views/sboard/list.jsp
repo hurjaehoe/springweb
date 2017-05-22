@@ -21,6 +21,8 @@
 					<select name="searchType">
 						<option value="n"
 							<c:out value="${criteriaVO.searchType == null?'selected':''}"/>>---</option>
+						<option value="b"
+							<c:out value="${criteriaVO.searchType eq 'b'?'selected':''}"/>>No</option>
 						<option value="t"
 							<c:out value="${criteriaVO.searchType eq 't'?'selected':''}"/>>Title</option>
 						<option value="c"

@@ -72,7 +72,7 @@ public class BoardController {
 		
 		model.addAttribute("boardList", boardService.listCriteria(criteriaVO));
 		PageMakerVO pageMakerVO = new PageMakerVO();
-		pageMakerVO.setPageCriteriaVO(criteriaVO);
+		pageMakerVO.setCriteriaVO(criteriaVO);
 		pageMakerVO.setTotalCount(boardService.listCountPageCriteria(criteriaVO));
 		
 		model.addAttribute("pageMaker",pageMakerVO);

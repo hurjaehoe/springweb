@@ -65,7 +65,7 @@ public class SearchBoardController {
 		
 		PageMakerVO pageMakerVO = new PageMakerVO();
 		
-		pageMakerVO.setPageCriteriaVO(criteriaVO);
+		pageMakerVO.setCriteriaVO(criteriaVO);
 		
 		pageMakerVO.setTotalCount(boardService.listSearchCount(criteriaVO));
 		

@@ -87,17 +87,21 @@ public class ReplyController {
 		return entity;
 	}
 	
-	@RequestMapping(value = "/{bbsno}/{page}", method = RequestMethod.POST)
-	public ResponseEntity<Map<String, Object>> listPage (@PathVariable("bbsno") Integer bbsno, @PathVariable("page") Integer page) {
+	@RequestMapping(value = "/{bbsno}/{page}", method = RequestMethod.GET)
+	public ResponseEntity<Map<String, Object>> listPage (
+			@PathVariable("bbsno") Integer bbsno, 
+			@PathVariable("page") Integer page) {
+		
 		ResponseEntity<Map<String, Object>> entity = null;
 		
 		try {
+			
 			PageCriteriaVO criteriaVO = new PageCriteriaVO();
 			
 			criteriaVO.setPage(page);
 			
 			PageMakerVO pageMakerVO = new PageMakerVO();
-			pageMakerVO.setPageCriteriaVO(criteriaVO);
+			pageMakerVO.setCriteriaVO(criteriaVO);
 			
 			Map<String, Object> map = new HashMap<String, Object>();
 			List<ReplyVO> replyList = replyService.listReplyPage(bbsno, criteriaVO);
@@ -114,6 +118,7 @@ public class ReplyController {
 			
 		} catch (Exception e) {
 			e.printStackTrace();
+			System.out.println(e.getMessage());
 			entity =  new ResponseEntity<Map<String,Object>>(HttpStatus.BAD_REQUEST);
 		}
 		

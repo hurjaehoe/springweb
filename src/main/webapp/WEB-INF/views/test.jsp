@@ -18,6 +18,22 @@
     padding: 10px;
     z-index: 1000;
 }
+.pagination {
+  width: 100%;
+}
+
+.pagination li{
+  list-style: none;
+  float: left; 
+  padding: 3px; 
+  border: 1px solid blue;
+  margin:3px;  
+}
+
+.pagination li a{
+    margin : 3px;
+    text-decoration : none;
+}
 </style>
 </head>
 <body>
@@ -32,9 +48,7 @@
         <button id="replyAddBtn">ADD REPLY</button>
     </div>
     
-    <ul id="replies">
-      
-    </ul>
+
     <div id="modDiv" style="display: none;">
         <div class="modal-title"></div>
         <div>
@@ -46,17 +60,17 @@
             <button type="button" id="closBtn">Close</button>
         </div>
     </div>
+    <ul id="replies">
+    </ul>
     <ul class="pagination">
     </ul>
     <!-- jQuery -->
     <script src="/resources/plugins/jQuery/jquery-2.2.3.min.js"></script>
     <script type="text/javascript">
     
-    $(document).ready(function(){
-    	getPageList(1);
-    });
-   
-    var bbsno = 6127;
+    var bbsno = 123239;
+	
+	getPageList(1);
     
         function getAllList() {
         	
@@ -167,8 +181,8 @@
        	});  // ajax ´ñ±Û ¼öÁ¤
        	
        	function getPageList(page) {
-       		$.getJSON("/replies/6127/1",  function(data) {
-       			console.log(data);
+       		
+       		$.getJSON("/replies/"+ bbsno + "/" + page,  function(data) {
        			console.log(data.replyList.length);
        			
        			var str = "";
@@ -194,16 +208,25 @@
        			str += "<li><a href='"+(pageMaker.startPage-1)+"'> << </a></li>";
        		}
        		
-       		for (var i = pageMaker.startPage, len = pageMaker.endPage; i < len; i++) {
+       		for (var i = pageMaker.startPage, len = pageMaker.endPage; i <= len; i++) {
 				var strClass = pageMaker.criteriaVO.page == i ? 'class=active':'';
-				star += "<li " + starClass + "><a href='"+i+"</a></li>";
+				str += "<li " + strClass + "><a href='"+i+"'>"+i+"</a></li>";
 			}
        		
        		if (pageMaker.next) {
-       			str += "<li><a href='"+(pageMaker.endPage + 1)+"'> >> </a></li>";
+       			str += "<li><a href='"+ (pageMaker.endPage + 1) +"'> >> </a></li>";
        		}
-       		$('.pagination').html(str);
+       		$(".pagination").html(str);
        	}
+       	
+       	var replyPage = 1;
+       	
+       	$(".pagination").on("click", "li a", function(event){
+       		event.preventDefault();
+       		replyPage = $(this).attr("href");
+       		getPageList(replyPage);
+       	})
+       	
         
     </script>
 </body>

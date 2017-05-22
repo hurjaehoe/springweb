@@ -16,8 +16,8 @@ public class PageMakerVO {
 	private int displayPageNum = 10;
 	private PageCriteriaVO criteriaVO;
 	
-	public void setPageCriteriaVO(PageCriteriaVO pageCriteriaVO) {
-		this.criteriaVO = pageCriteriaVO;
+	public void setCriteriaVO(PageCriteriaVO criteriaVO) {
+		this.criteriaVO = criteriaVO;
 	}
 
 	private void calculateData() {
