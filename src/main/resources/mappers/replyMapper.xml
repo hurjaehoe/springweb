@@ -40,4 +40,8 @@
 		select count(*) from tbl_reply
 		where bbsno = #{bbsno}
 	</select>
+	
+	<select id="getBbsno">
+	    select bbsno from tbl_reply where replyno=#{replyno}
+	</select>
 </mapper>

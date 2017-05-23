@@ -5,6 +5,8 @@ import java.util.List;
 import javax.inject.Inject;
 
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Isolation;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.roamstory.domain.BoardVO;
 import com.roamstory.domain.PageCriteriaVO;
@@ -22,9 +24,10 @@ public class BoardServiceImpl implements BoardService {
 		boardDAO.create(boardVO);
 	}
 
+	@Transactional(isolation=Isolation.READ_COMMITTED)
 	@Override
 	public BoardVO read(Integer bbsno) throws Exception {
-		
+		boardDAO.updateViewCnt(bbsno);
 		return boardDAO.read(bbsno);
 	}
 

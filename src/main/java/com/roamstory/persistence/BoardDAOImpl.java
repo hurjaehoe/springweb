@@ -1,6 +1,8 @@
 package com.roamstory.persistence;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.inject.Inject;
 
@@ -12,7 +14,6 @@ import org.springframework.stereotype.Repository;
 import com.roamstory.domain.BoardVO;
 import com.roamstory.domain.PageCriteriaVO;
 import com.roamstory.domain.SearchCriteriaVO;
-import com.roamstory.web.BoardDAOTest;
 
 @Repository
 public class BoardDAOImpl implements BoardDAO {
@@ -72,6 +73,23 @@ public class BoardDAOImpl implements BoardDAO {
 	@Override
 	public int listSearchCount(SearchCriteriaVO criteriaVO) throws Exception {
 		return session.selectOne(namespace+".listSearchCount", criteriaVO);
+	}
+
+	@Override
+	public void updateReplyCnt(Integer bbsno, int amount) throws Exception {
+		Map<String, Object> paramMap = new HashMap<String, Object>();
+		
+		paramMap.put("bbsno", bbsno);
+		paramMap.put("amount", amount);
+		
+		session.update(namespace+".updateReplyCnt", paramMap);
+		
+	}
+
+	@Override
+	public void updateViewCnt(Integer bbsno) throws Exception {
+		session.update(namespace+".updateViewCnt", bbsno);
+		
 	}
 
 }

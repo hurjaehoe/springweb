@@ -11,7 +11,7 @@
 	</insert>
 
 	<select id="read" resultType="BoardVO">
-		select bbsno, title, content, writer, regdate, viewcnt
+		select bbsno, title, content, writer, regdate, viewcnt,replycnt
 		from tbl_board
 		where bbsno = #{bbsno}
 	</select>
@@ -27,7 +27,7 @@
 
 	<select id="listAll" resultType="BoardVO">
 	     <![CDATA[
-	         select bbsno, title, content, writer, regdate, viewcnt
+	         select bbsno, title, content, writer, regdate, viewcnt, replycnt
 	           from tbl_board
 	          where bbsno > 0
 	         order by bbsno desc, regdate desc
@@ -36,7 +36,7 @@
 
 	<select id="listPage" resultType="BoardVO">
 		  <![CDATA[
-		      select bbsno, title, content, writer, regdate, viewcnt
+		      select bbsno, title, content, writer, regdate, viewcnt, replycnt
 		        from tbl_board
 		       where bbsno > 0
 		       order by bbsno desc, regdate desc
@@ -46,7 +46,7 @@
 
 	<select id="listCriteria" resultType="BoardVO">
 		  <![CDATA[
-		      select bbsno, title, content, writer, regdate, viewcnt
+		      select bbsno, title, content, writer, regdate, viewcnt, replycnt
 		        from tbl_board
 		       where bbsno > 0
 		       order by bbsno desc, regdate desc
@@ -108,6 +108,10 @@
 		  limit #{pageStart}, #{perPageNum}
 		]]>
 	</select>
+	
+	<update id="updateViewCnt">
+	    update tbl_board set viewcnt = viewcnt + 1 where bbsno = #{bbsno}
+	</update>
 
 	<select id="listSearchCount" resultType="int">
 		<![CDATA[  
@@ -119,6 +123,12 @@
 
 	</select>
 
+    <update id="updateReplyCnt">
+        update tbl_board 
+        set 
+        replycnt = replycnt + #{amount} 
+        where bbsno = #{bbsno}
+    </update>
 
 
 </mapper>

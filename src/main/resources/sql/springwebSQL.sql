@@ -67,3 +67,10 @@ insert into tbl_user(uid, upw, uname) values ('user01','user01','CAPTAIN');
 insert into tbl_user(uid, upw, uname) values ('user02','user02','HULK');
 insert into tbl_user(uid, upw, uname) values ('user03','user03','Thor');
 insert into tbl_user(uid, upw, uname) values ('user10','user10','Quick Silver');
+
+alter table tbl_board add column replycnt int default 0;
+
+update tbl_board set replycnt = 
+(select count(replyno)
+from tbl_reply
+where bbsno = tbl_board.bbsno) where bbsno > 0;

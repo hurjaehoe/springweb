@@ -11,7 +11,12 @@
 	</appender>
 	
 	<!-- Application Loggers -->
-	<logger name="com.roamstory.web">
+	<logger name="com.roamstory.controller">
+		<level value="info" />
+	</logger>
+	
+	<!-- Application Loggers -->
+	<logger name="com.roamstory.service">
 		<level value="info" />
 	</logger>
 	
@@ -34,7 +39,7 @@
 
 	<!-- Root Logger -->
 	<root>
-		<priority value="warn" />
+		<priority value="info" />
 		<appender-ref ref="console" />
 	</root>
 	
