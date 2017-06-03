@@ -130,5 +130,8 @@
         where bbsno = #{bbsno}
     </update>
 
+    <insert id="addAttach">
+        insert into tbl_attach(fullname, bbsno) values (#{fullName}, LAST_INSERT_ID());
+    </insert>
 
 </mapper>
