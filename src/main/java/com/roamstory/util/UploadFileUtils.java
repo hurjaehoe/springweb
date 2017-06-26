@@ -17,19 +17,9 @@ public class UploadFileUtils {
 
 	private static final Logger logger = LoggerFactory.getLogger(UploadFileUtils.class);
 
-	// public static String uploadFile(String uploadPath,
-	// String originalName,
-	// byte[] fileData)throws Exception{
-	//
-	// return null;
-	// }
-	//
-
 	public static String uploadFile(String uploadPath, String originalName, byte[] fileData) throws Exception {
 
-		UUID uid = UUID.randomUUID();
-
-		String savedName = uid.toString() + "_" + originalName;
+		String savedName = makeSevedName(originalName);
 
 		String savedPath = calcPath(uploadPath);
 
@@ -37,7 +27,7 @@ public class UploadFileUtils {
 
 		FileCopyUtils.copy(fileData, target);
 
-		String formatName = originalName.substring(originalName.lastIndexOf(".") + 1);
+		String formatName = makeFormatName(originalName);
 
 		String uploadedFileName = null;
 
@@ -49,6 +39,15 @@ public class UploadFileUtils {
 
 		return uploadedFileName;
 
+	}
+
+	private static String makeSevedName(String originalName) {
+		
+		UUID uid = UUID.randomUUID();
+
+		String savedName = uid.toString() + "_" + originalName;
+		
+		return savedName;
 	}
 
 	private static String makeIcon(String uploadPath, String path, String fileName) throws Exception {
@@ -67,10 +66,17 @@ public class UploadFileUtils {
 		String thumbnailName = uploadPath + path + File.separator + "s_" + fileName;
 
 		File newFile = new File(thumbnailName);
-		String formatName = fileName.substring(fileName.lastIndexOf(".") + 1);
+		
+		String formatName = makeFormatName(fileName);
 
 		ImageIO.write(destImg, formatName.toUpperCase(), newFile);
+		
 		return thumbnailName.substring(uploadPath.length()).replace(File.separatorChar, '/');
+	}
+
+	private static String makeFormatName(String fileName) {
+		String formatName = fileName.substring(fileName.lastIndexOf(".") + 1);
+		return formatName;
 	}
 
 	private static String calcPath(String uploadPath) {

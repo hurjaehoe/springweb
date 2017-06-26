@@ -115,9 +115,8 @@ public class UploadController {
           new String(fileName.getBytes("UTF-8"), "ISO-8859-1")+"\"");
       }
 
-        entity = new ResponseEntity<byte[]>(IOUtils.toByteArray(in), 
-          headers, 
-          HttpStatus.CREATED);
+        entity = new ResponseEntity<byte[]>(IOUtils.toByteArray(in),headers,HttpStatus.CREATED);
+        
     }catch(Exception e){
       e.printStackTrace();
       entity = new ResponseEntity<byte[]>(HttpStatus.BAD_REQUEST);
@@ -179,44 +178,3 @@ public class UploadController {
   }  
 
 }
-//  @ResponseBody
-//  @RequestMapping(value = "/uploadAjax", 
-//                 method = RequestMethod.POST, 
-//                 produces = "text/plain;charset=UTF-8")
-//  public ResponseEntity<String> uploadAjax(MultipartFile file) throws Exception {
-//
-//    logger.info("originalName: " + file.getOriginalFilename());
-//    logger.info("size: " + file.getSize());
-//    logger.info("contentType: " + file.getContentType());
-//
-//    return 
-//        new ResponseEntity<>(file.getOriginalFilename(), HttpStatus.CREATED);
-//  }
-
-// @RequestMapping(value = "/uploadForm", method = RequestMethod.POST)
-// public void uploadForm(MultipartFile file, Model model) throws Exception {
-//
-// logger.info("originalName: " + file.getOriginalFilename());
-// logger.info("size: " + file.getSize());
-// logger.info("contentType: " + file.getContentType());
-//
-// String savedName = uploadFile(file.getOriginalFilename(), file.getBytes());
-//
-// model.addAttribute("savedName", savedName);
-//
-// }
-//
-// private String uploadFile(String originalName, byte[] fileData)throws
-// Exception{
-//
-// UUID uid = UUID.randomUUID();
-//
-// String savedName = uid.toString() + "_"+ originalName;
-//
-// File target = new File(uploadPath,savedName);
-//
-// FileCopyUtils.copy(fileData, target);
-//
-// return savedName;
-//
-// }

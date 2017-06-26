@@ -31,4 +31,11 @@ public interface BoardDAO {
 	public void updateViewCnt(Integer bbsno) throws Exception;
 	
 	public void addAttach(String fullName) throws Exception;
+	
+	public List<String> getAttach(Integer bbsno) throws Exception;
+	
+	public void deleteAttach(Integer bbsno) throws Exception;
+	
+	public void replaceAttach(String fullName, Integer bbsno) throws Exception;
+	
 }

@@ -138,6 +138,30 @@ $("#registerForm").submit(function(event){
 	that.append(str);
 	that.get(0).submit();
 });
+
+$(".uploadedList").on("click", ".delbtn", function(event) {
+
+	  event.preventDefault();
+
+	  var that = $(this);
+
+	  //alert("DELETE FILE");
+
+	  $.ajax({
+	   url : "/deleteFile",
+	   type : "post",
+	   data : {
+	    fileName : $(this).attr("href")
+	   },
+	   dataType : "text",
+	   success : function(result) {
+	    console.log("RESULT: " + result);
+	    if (result == 'deleted') {
+	     that.closest("li").remove();
+	    }
+	   }
+    });
+});
 </script>
 
  

@@ -2,8 +2,28 @@
 	pageEncoding="UTF-8"%>
 
 <%@include file="../include/header.jsp"%>
+<script type="text/javascript" src="/resources/js/upload.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/handlebars.js/3.0.1/handlebars.js"></script>
 <!-- Main content -->
+    <style type="text/css">
+    .popup {position: absolute;}
+    .back { background-color: gray; opacity:0.5; width: 100%; height: 300%; overflow:hidden;  z-index:1101;}
+    .front { 
+       z-index:1110; opacity:1; boarder:1px; margin: auto; 
+      }
+     .show{
+       position:relative;
+       max-width: 1200px; 
+       max-height: 800px; 
+       overflow: auto;       
+     } 
+  	
+    </style>
+
+    <div class='popup back' style="display:none;"></div>
+    <div id="popup_front" class='popup front' style="display:none;">
+     <img id="popup_img">
+    </div>
 <section class="content">
 	<div class="row">
 		<!-- left column -->
@@ -19,32 +39,41 @@
 
 					<input type='hidden' name='bbsno' value="${boardVO.bbsno}">
 					<input type='hidden' name='page' value="${criteriaVO.page}">
-					<input type='hidden' name='perPageNum' value="${criteriaVO.perPageNum}">
-					<input type='hidden' name='searchType' value="${criteriaVO.searchType}">
-					<input type='hidden' name='keyword' value="${criteriaVO.keyword}">
+					<input type='hidden' name='perPageNum'
+						value="${criteriaVO.perPageNum}"> <input type='hidden'
+						name='searchType' value="${criteriaVO.searchType}"> <input
+						type='hidden' name='keyword' value="${criteriaVO.keyword}">
 
 				</form>
 
 				<div class="box-body">
 					<div class="form-group">
-						<label for="exampleInputEmail1">Title</label> 
-						<input type="text" name='title' class="form-control" value="${boardVO.title}" >
+						<label for="exampleInputEmail1">Title</label> <input type="text"
+							name='title' class="form-control" value="${boardVO.title}">
 					</div>
 					<div class="form-group">
 						<label for="exampleInputPassword1">Content</label>
-						<textarea class="form-control" name="content" rows="3" >${boardVO.content}</textarea>
+						<textarea class="form-control" name="content" rows="3">${boardVO.content}</textarea>
 					</div>
 					<div class="form-group">
-						<label for="exampleInputEmail1">Writer</label> 
-						<input type="text" name="writer" class="form-control" value="${boardVO.writer}" >
+						<label for="exampleInputEmail1">Writer</label> <input type="text"
+							name="writer" class="form-control" value="${boardVO.writer}">
 					</div>
 				</div>
 				<!-- /.box-body -->
 
 				<div class="box-footer">
-					    <button type="submit" class="btn btn-warning modifyBtn">Modify</button>
-					    <button type="submit" class="btn btn-danger removeBtn">REMOVE</button>
-					    <button type="submit" class="btn btn-primary goListBtn">GO LIST </button>
+					<div>
+						<hr>
+					</div>
+
+					<ul class="mailbox-attachments clearfix uploadedList">
+					</ul>
+					
+					<button type="submit" class="btn btn-warning modifyBtn">Modify</button>
+					<button type="submit" class="btn btn-danger removeBtn">REMOVE</button>
+					<button type="submit" class="btn btn-primary goListBtn">GO
+						LIST</button>
 
 				</div>
 
@@ -58,7 +87,7 @@
 
 						$(".modifyBtn").on("click", function() {
 							formObj.attr("action", "/sboard/modifyPage");
-							formObj.attr("method","get");
+							formObj.attr("method", "get");
 							formObj.submit();
 						});
 
@@ -67,7 +96,7 @@
 							formObj.submit();
 						});
 
-						$(".goListBtn").on("click", function(){
+						$(".goListBtn").on("click", function() {
 							formObj.attr("method", "get");
 							formObj.attr("action", "/sboard/list");
 							formObj.submit();
@@ -86,7 +115,7 @@
 
 	</div>
 	<!-- /.row -->
-	
+
 	<div class="row">
 		<div class="col-md-12">
 
@@ -95,12 +124,11 @@
 					<h3 class="box-title">ADD NEW REPLY</h3>
 				</div>
 				<div class="box-body">
-					<label for="exampleInputEmail1">Writer</label> 
-					<input class="form-control" type="text" placeholder="USER ID" id="newReplyWriter"> 
-					<label for="exampleInputEmail1">
-					    Reply Text
-					</label>
-					<input class="form-control" type="text" placeholder="REPLY TEXT" id="newReplyText">
+					<label for="exampleInputEmail1">Writer</label> <input
+						class="form-control" type="text" placeholder="USER ID"
+						id="newReplyWriter"> <label for="exampleInputEmail1">
+						Reply Text </label> <input class="form-control" type="text"
+						placeholder="REPLY TEXT" id="newReplyText">
 
 				</div>
 				<!-- /.box-body -->
@@ -114,9 +142,9 @@
 			<!-- The time line -->
 			<ul class="timeline">
 				<!-- timeline time label -->
-				<li class="time-label" id="repliesDiv">
-				    <span class="bg-green">Replies List <small id="replycntSmall">[ ${boardVO.replycnt} ]</small></span>
-				</li>
+				<li class="time-label" id="repliesDiv"><span class="bg-green">Replies
+						List <small id="replycntSmall">[ ${boardVO.replycnt} ]</small>
+				</span></li>
 			</ul>
 
 			<div class='text-center'>
@@ -136,24 +164,26 @@
 <!-- Modal -->
 <!-- Modal -->
 <div id="modifyModal" class="modal modal-primary fade" role="dialog">
-  <div class="modal-dialog">
-    <!-- Modal content-->
-    <div class="modal-content">
-      <div class="modal-header">
-        <button type="button" class="close" data-dismiss="modal">&times;</button>
-        <h4 class="modal-title"></h4>
-      </div>
-      <div class="modal-body" data-rno>
-        <p><input type="text" id="replytext" class="form-control"></p>
-      </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-info" id="replyModBtn">Modify</button>
-        <button type="button" class="btn btn-danger" id="replyDelBtn">DELETE</button>
-        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-      </div>
-    </div>
-  </div>
-</div> 
+	<div class="modal-dialog">
+		<!-- Modal content-->
+		<div class="modal-content">
+			<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal">&times;</button>
+				<h4 class="modal-title"></h4>
+			</div>
+			<div class="modal-body" data-rno>
+				<p>
+					<input type="text" id="replytext" class="form-control">
+				</p>
+			</div>
+			<div class="modal-footer">
+				<button type="button" class="btn btn-info" id="replyModBtn">Modify</button>
+				<button type="button" class="btn btn-danger" id="replyDelBtn">DELETE</button>
+				<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+			</div>
+		</div>
+	</div>
+</div>
 <script id="template" type="text/x-handlebars-template">
 {{#each .}}
 		<li class="replyLi" data-replyno={{replyno}}>
@@ -172,27 +202,37 @@
 		</li>
 {{/each}}
 </script>
+<script id="templateAttach" type="text/x-handlebars-template">
+<li data-src='{{fullName}}'>
+  <span class="mailbox-attachment-icon has-img"><img src="{{imgsrc}}" alt="Attachment"></span>
+  <div class="mailbox-attachment-info">
+	<a href="{{getLink}}" class="mailbox-attachment-name">{{fileName}}</a>
+	</span>
+  </div>
+</li>                
+</script> 
+
 <script>
-    Handlebars.registerHelper("prettifyDate", function(timeValue) {
-    		var dateObj = new Date(timeValue);
-    		var year = dateObj.getFullYear();
-    		var month = dateObj.getMonth() + 1;
-    		var date = dateObj.getDate();
-    		return year + "/" + month + "/" + date;
-    });
-    	
-    var printData = function(replyArr, target, templateObject) {
-    	
-    	var template = Handlebars.compile(templateObject.html());
-    	
-    	var html = template(replyArr);
-    	$(".replyLi").remove();
-    	target.after(html);
-    }
-    
-    
+	Handlebars.registerHelper("prettifyDate", function(timeValue) {
+		var dateObj = new Date(timeValue);
+		var year = dateObj.getFullYear();
+		var month = dateObj.getMonth() + 1;
+		var date = dateObj.getDate();
+		return year + "/" + month + "/" + date;
+	});
+
+	var printData = function(replyArr, target, templateObject) {
+
+		var template = Handlebars.compile(templateObject.html());
+
+		var html = template(replyArr);
+		$(".replyLi").remove();
+		target.after(html);
+	}
+
 	var bbsno = ${boardVO.bbsno};
 	
+
 	var replyPage = 1;
 
 	function getPage(pageInfo) {
@@ -202,7 +242,7 @@
 			printPaging(data.pageMaker, $(".pagination"));
 
 			$("#modifyModal").modal('hide');
-			$("#replycntSmall").html("[ " +data.pageMaker.totalCount + " ]");
+			$("#replycntSmall").html("[ " + data.pageMaker.totalCount + " ]");
 
 		});
 	}
@@ -228,7 +268,7 @@
 
 		target.html(str);
 	};
-	
+
 	$("#repliesDiv").on("click", function() {
 
 		if ($(".timeline li").size() > 1) {
@@ -237,102 +277,199 @@
 		getPage("/replies/" + bbsno + "/1");
 
 	});
-	
-   $(".pagination").on("click", "li a", function(event){
-		
+
+	$(".pagination").on("click", "li a", function(event) {
+
 		event.preventDefault();
-		
+
 		replyPage = $(this).attr("href");
-		
-		getPage("/replies/"+bbsno+"/"+replyPage);
-		
-	});
-   
-   
-   $("#replyAddBtn").on("click", function() {
-   	
-   	var replyerObj = $("#newReplyWriter");
-   	var replytextObj = $("#newReplyText");
-   	var replyer = replyerObj.val();
-   	var replytext = replytextObj.val(); 
-   	
-   	$.ajax({
-   		type : 'post',
-   		url : '/replies',
-   		headers : {
-   			"Content-Type" : "application/json",
-   			"X-HTTP-Method-Override" : "POST"
-   		},
-   		dataType : 'text',
-   		data : JSON.stringify({
-   			bbsno : bbsno,
-   			replyer : replyer,
-   			replytext : replytext
-   		}),
-   		success : function(result) {
-   			
-   			if (result == 'SUCCESS') {
-   				alert("글이 등록되었습니다.");
-   				replyPage = 1;
-   				getPage("/replies/"+bbsno+"/"+replyPage)
-   				replyerObj.val("");
-   			   	replytextObj.val("");
-   			}
-   		}
-   	});
-   });  // ajax 댓글 등록
-   
-   $(".timeline").on("click", ".replyLi", function(event){
-		
-		var reply = $(this);
-		
-		$("#replytext").val(reply.find('.timeline-body').text());
-		$(".modal-title").html(reply.attr("data-replyno"));
-		
-	});
-   
-   $("#replyModBtn").on("click",function(){
-		  
-		  var replyno = $(".modal-title").html();
-		  var replytext = $("#replytext").val();
-		  
-		  $.ajax({
-				type:'put',
-				url:'/replies/'+replyno,
-				headers: { 
-				      "Content-Type": "application/json",
-				      "X-HTTP-Method-Override": "PUT" },
-				data:JSON.stringify({replytext:replytext}), 
-				dataType:'text', 
-				success:function(result){
-					console.log("result: " + result);
-					if(result == 'SUCCESS'){
-						alert("수정 되었습니다.");
-						getPage("/replies/"+bbsno+"/"+replyPage );
-					}
-			}});
+
+		getPage("/replies/" + bbsno + "/" + replyPage);
+
 	});
 
-	$("#replyDelBtn").on("click",function(){
-		  
-		  var replyno = $(".modal-title").html();
-		  var replytext = $("#replytext").val();
-		  
-		  $.ajax({
-				type:'delete',
-				url:'/replies/'+replyno,
-				headers: { 
-				      "Content-Type": "application/json",
-				      "X-HTTP-Method-Override": "DELETE" 
-				      },
-				dataType:'text', 
-				success:function(result){
-					console.log("result: " + result);
-					if(result == 'SUCCESS'){
-						alert("삭제 되었습니다.");
-						getPage("/replies/"+bbsno+"/"+replyPage );
-					}
-			}});
+	$("#replyAddBtn").on("click", function() {
+
+		var replyerObj = $("#newReplyWriter");
+		var replytextObj = $("#newReplyText");
+		var replyer = replyerObj.val();
+		var replytext = replytextObj.val();
+
+		$.ajax({
+			type : 'post',
+			url : '/replies',
+			headers : {
+				"Content-Type" : "application/json",
+				"X-HTTP-Method-Override" : "POST"
+			},
+			dataType : 'text',
+			data : JSON.stringify({
+				bbsno : bbsno,
+				replyer : replyer,
+				replytext : replytext
+			}),
+			success : function(result) {
+
+				if (result == 'SUCCESS') {
+					alert("글이 등록되었습니다.");
+					replyPage = 1;
+					getPage("/replies/" + bbsno + "/" + replyPage)
+					replyerObj.val("");
+					replytextObj.val("");
+				}
+			}
+		});
+	}); // ajax 댓글 등록
+
+	$(".timeline").on("click", ".replyLi", function(event) {
+
+		var reply = $(this);
+
+		$("#replytext").val(reply.find('.timeline-body').text());
+		$(".modal-title").html(reply.attr("data-replyno"));
+
 	});
+
+	$("#replyModBtn").on("click", function() {
+
+		var replyno = $(".modal-title").html();
+		var replytext = $("#replytext").val();
+
+		$.ajax({
+			type : 'put',
+			url : '/replies/' + replyno,
+			headers : {
+				"Content-Type" : "application/json",
+				"X-HTTP-Method-Override" : "PUT"
+			},
+			data : JSON.stringify({
+				replytext : replytext
+			}),
+			dataType : 'text',
+			success : function(result) {
+				console.log("result: " + result);
+				if (result == 'SUCCESS') {
+					alert("수정 되었습니다.");
+					getPage("/replies/" + bbsno + "/" + replyPage);
+				}
+			}
+		});
+	});
+
+	$("#replyDelBtn").on("click", function() {
+
+		var replyno = $(".modal-title").html();
+		var replytext = $("#replytext").val();
+
+		$.ajax({
+			type : 'delete',
+			url : '/replies/' + replyno,
+			headers : {
+				"Content-Type" : "application/json",
+				"X-HTTP-Method-Override" : "DELETE"
+			},
+			dataType : 'text',
+			success : function(result) {
+				console.log("result: " + result);
+				if (result == 'SUCCESS') {
+					alert("삭제 되었습니다.");
+					getPage("/replies/" + bbsno + "/" + replyPage);
+				}
+			}
+		});
+	});
+	
+	
+</script>
+<script>
+$(document).ready(function(){
+	
+	var formObj = $("form[role='form']");
+	
+	console.log(formObj);
+	
+	$("#modifyBtn").on("click", function(){
+		formObj.attr("action", "/sboard/modifyPage");
+		formObj.attr("method", "get");		
+		formObj.submit();
+	});
+	
+/* 	$("#removeBtn").on("click", function(){
+		formObj.attr("action", "/sboard/removePage");
+		formObj.submit();
+	}); */
+	
+	$("#removeBtn").on("click", function(){
+		
+		var replyCnt =  $("#replycntSmall").html();
+		
+		if(replyCnt > 0 ){
+			alert("댓글이 달린 게시물을 삭제할 수 없습니다.");
+			return;
+		}	
+		
+		var arr = [];
+		$(".uploadedList li").each(function(index){
+			 arr.push($(this).attr("data-src"));
+		});
+		
+		if(arr.length > 0){
+			$.post("/deleteAllFiles",{files:arr}, function(){
+				
+			});
+		}
+		
+		formObj.attr("action", "/sboard/removePage");
+		formObj.submit();
+	});	
+	
+	$("#goListBtn ").on("click", function(){
+		formObj.attr("method", "get");
+		formObj.attr("action", "/sboard/list");
+		formObj.submit();
+	});
+	
+	var bbsno = ${boardVO.bbsno};
+	var template = Handlebars.compile($("#templateAttach").html());
+	
+	$.getJSON("/sboard/getAttach/"+bbsno,function(list){
+		$(list).each(function(){
+			
+			var fileInfo = getFileInfo(this);
+			
+			var html = template(fileInfo);
+			
+			 $(".uploadedList").append(html);
+			
+		});
+	});
+	
+	$(".uploadedList").on("click", ".mailbox-attachment-info a", function(event){
+		
+		var fileLink = $(this).attr("href");
+		
+		if(checkImageType(fileLink)){
+			
+			event.preventDefault();
+					
+			var imgTag = $("#popup_img");
+			imgTag.attr("src", fileLink);
+			
+			console.log(imgTag.attr("src"));
+					
+			$(".popup").show('slow');
+			imgTag.addClass("show");		
+		}	
+	});
+	
+	$("#popup_img").on("click", function(){
+		
+		$(".popup").hide('slow');
+		
+	});	
+	
+		
+	
+});
 </script>
 <%@include file="../include/footer.jsp"%>

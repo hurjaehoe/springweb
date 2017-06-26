@@ -1,5 +1,7 @@
 package com.roamstory.controller;
 
+import java.util.List;
+
 import javax.inject.Inject;
 
 import org.slf4j.Logger;
@@ -7,13 +9,14 @@ import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.roamstory.domain.BoardVO;
-import com.roamstory.domain.PageCriteriaVO;
 import com.roamstory.domain.PageMakerVO;
 import com.roamstory.domain.SearchCriteriaVO;
 import com.roamstory.service.BoardService;
@@ -151,5 +154,14 @@ public class SearchBoardController {
 		rttr.addFlashAttribute("msg","success");
 		
 		return "redirect:/sboard/list";
+	}
+	
+	/**
+	 * 해당 게시물의 첨부파일을 가져온다.
+	 */
+	@RequestMapping("/getAttach/{bbsno}")
+	@ResponseBody
+	public List<String> getAttach(@PathVariable("bbsno") Integer bbsno) throws Exception {
+		return boardService.getAttach(bbsno);
 	}
 }
